@@ -7,19 +7,19 @@ import org.testng.annotations.Test;
 
 public class SignInTest {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver;
 
     @Test
     public void shouldThrowAnErrorIfSignInDetailsAreMissing() {
 
         setDriverPath();
-
+        driver = new ChromeDriver();
         driver.get("https://www.cleartrip.com/");
         waitFor(2000);
 
         driver.findElement(By.linkText("Your trips")).click();
         driver.findElement(By.id("SignIn")).click();
-
+driver.switchTo().frame("modal_window");
         driver.findElement(By.id("signInButton")).click();
 
         String errors1 = driver.findElement(By.id("errors1")).getText();
@@ -36,13 +36,13 @@ public class SignInTest {
     }
 
     private void setDriverPath() {
-        if (PlatformUtil.isMac()) {
+        if (System.getProperty("os.name").contains("Mac")) {
             System.setProperty("webdriver.chrome.driver", "chromedriver");
         }
-        if (PlatformUtil.isWindows()) {
+        if (System.getProperty("os.name").contains("Windows")) {
             System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         }
-        if (PlatformUtil.isLinux()) {
+        if (System.getProperty("os.name").contains("Linux")) {
             System.setProperty("webdriver.chrome.driver", "chromedriver_linux");
         }
     }
